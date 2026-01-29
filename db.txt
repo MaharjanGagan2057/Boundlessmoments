@@ -1,0 +1,13 @@
+supabase 
+-cloud database
+
+
+nodejs +sql - connection
+
+ORM -object relational mapper
+-
+
+embedded sql
+
+pg package -helps to connect nodejs+ postgresql(supabase)
+

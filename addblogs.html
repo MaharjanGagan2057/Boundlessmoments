@@ -1,0 +1,92 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Add Employee</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body >
+
+  <!-- Sidebar -->
+    <aside class="fixed top-0 left-0 h-screen w-40 bg-blue-100 p-5">
+      <p class="underline text-center font-bold">Admin Panel</p>
+      <ul class="mt-5 space-y-2">
+        <li>
+          <a href="/admin" class="text-blue-600 hover:underline">Dashboard</a>
+        </li>
+        <li>
+          <a href="/users" class="text-blue-600 hover:underline">Users</a>
+        </li>
+        <li>
+          <a href="/employees" class="text-blue-600 hover:underline"
+            >Employees</a
+          >
+        </li>
+        <li>
+          <a href="/addportfolio" class="text-blue-600 hover:underline"
+            >Portfolio</a
+          >
+        </li>
+        <li>
+          <a href="/admin/addgallery" class="text-blue-600 hover:underline"
+            >Gallery</a
+          >
+        </li>
+        <li>
+          <a href="/adminblogs" class="text-blue-600 hover:underline">Blogs</a>
+        </li>
+        <li>
+          <a href="/messages" class="text-blue-600 hover:underline">Messages</a>
+        </li>
+      </ul>
+      <button
+        onclick="window.location.href = '/logout'"
+        class="mt-5 w-full text-white bg-red-500 rounded p-2 hover:bg-red-600"
+      >
+        Logout
+      </button>
+    </aside>
+<div class="bg-gray-100 h-screen flex justify-center items-center">
+
+    <div class="bg-white shadow-lg rounded-lg p-8 w-96">
+        <h2 class="text-2xl font-bold text-center mb-4">Create Blogs</h2>
+       
+        
+        <!-- add blog Form from ui to database -->
+        <form action="/blogs/add" method="POST" enctype="multipart/form-data" class="space-y-4">
+
+            <div>
+                <label class="block font-medium" for="title">Title:</label>
+                <input type="text" name="title" id="title" minlength="7" required class="w-full border rounded px-3 py-2"/>
+            </div>
+            
+            <div>
+                <label class="block font-medium" for="content">Content:</label>
+                <textarea name="content" id="content" required class="w-full border rounded px-3 py-2"></textarea>
+            </div>
+            
+            <div>
+                <label class="block font-medium" for="image">Image:</label>
+                <input type="file" name="image" id="image" accept="" required class="w-full border rounded px-3 py-2"/>
+            </div>
+            
+            <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 onsubmit="return validateForm()">
+                Add Blog
+            </button>
+        </form>
+`      
+        </form>
+        <button></button>
+    </div>
+    
+    
+    
+</div>
+</body>
+</html>
+
+
+

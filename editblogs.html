@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit Blog</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-50 min-h-screen">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 text-white shadow-lg">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="flex justify-between h-16 items-center">
+          <div class="flex items-center space-x-4">
+            <a href="/admin" class="text-xl font-bold">Admin Panel</a>
+            <a href="/admin/blogs" class="hover:bg-blue-700 px-3 py-2 rounded"
+              >Blogs</a
+            >
+            <a href="/admin/users" class="hover:bg-blue-700 px-3 py-2 rounded"
+              >Users</a
+            >
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="max-w-3xl mx-auto mt-8 bg-white p-6 rounded shadow">
+      <h1 class="text-2xl font-bold mb-6">Edit Blog</h1>
+
+      <form
+        id="edit-blog-form"
+        enctype="multipart/form-data"
+        class="flex flex-col space-y-4"
+      >
+        <label class="flex flex-col">
+          Title
+          <input
+            type="text"
+            name="title"
+            id="title"
+            class="border rounded px-3 py-2 mt-1"
+            required
+          />
+        </label>
+
+        <label class="flex flex-col">
+          Content
+          <textarea
+            name="content"
+            id="content"
+            rows="6"
+            class="border rounded px-3 py-2 mt-1"
+            required
+          ></textarea>
+        </label>
+
+        <label class="flex flex-col">
+          Image
+          <input
+            type="file"
+            name="image"
+            id="image"
+            class="mt-1"
+            accept="image/*"
+          />
+          <img
+            id="current-image"
+            class="mt-2 w-full max-h-60 object-cover rounded hidden"
+          />
+        </label>
+
+        <div class="flex justify-between">
+          <button
+            type="submit"
+            class="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded"
+          >
+            Update Blog
+          </button>
+          <a
+            href="/admin/blogs"
+            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+            >Cancel</a
+          >
+        </div>
+      </form>
+    </div>
+
+    <script>
+      const form = document.getElementById("edit-blog-form");
+
+      // Extract blog ID from URL
+      const blogId = window.location.pathname.split("/").pop();
+
+      // Fetch current blog data
+      async function loadBlog() {
+        try {
+          const res = await fetch("/blogs/data");
+          const blogs = await res.json();
+          const blog = blogs.find((b) => b.id == blogId);
+          if (!blog) return alert("Blog not found!");
+
+          document.getElementById("title").value = blog.title;
+          document.getElementById("content").value = blog.content;
+
+          if (blog.image) {
+            const imgEl = document.getElementById("current-image");
+            imgEl.src = `/uploads/${blog.image}`;
+            imgEl.classList.remove("hidden");
+          }
+        } catch (err) {
+          console.error("Error loading blog:", err);
+        }
+      }
+
+      loadBlog();
+
+      // Handle form submission
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+
+        try {
+          const res = await fetch(`/blogs/edit/${blogId}`, {
+            method: "POST",
+            body: formData,
+          });
+
+          if (res.ok) {
+            alert("Blog updated successfully!");
+            window.location.href = "/admin/blogs";
+          } else {
+            alert("Error updating blog");
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Error updating blog");
+        }
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <!-- main conte -->
+    <div class="bg-gray-50 min-h-screen p-6">
+      <h1 class="text-3xl font-bold mb-6 text-center">Person List</h1>
+      <div class="flex justify-end mb-4">
+        <button
+          onclick="window.location.href='/person/add'"
+          class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+        >
+          Add person
+        </button>
+      </div>
+
+      <div class="overflow-x-auto shadow-lg rounded-lg">
+        <table class="w-full table-auto">
+          <thead class="bg-blue-600 text-white">
+            <tr>
+              <th class="p-3">ID</th>
+              <th class="p-3">Username</th>
+              <th class="p-3">Salary</th>
+              <th class="p-3">image</th>
+              <th class="p-3">Actions</th>
+            </tr>
+          </thead>
+
+          <tbody id="personTable" class="bg-white"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Fetch users data from server -->
+    <script>
+      fetch("/person/data")
+        .then((res) => res.json())
+        .then((users) => {
+          const table = document.getElementById("personTable");
+          users.forEach((user) => {
+            table.innerHTML += `
+               <tr class="border-b">
+    <td class="p-3 text-center">${user.id}</td>
+    <td class="p-3 text-center">${user.name}</td>
+    <td class="p-3 text-center">${user.salary}</td>
+
+    <td class="p-3 text-center">
+        <div class="flex justify-center">
+            <img src="${user.image}" class="h-[80px] w-[80px] object-cover rounded-md" />
+        </div>
+    </td>
+
+    <td class="p-3 text-center">
+       <button 
+    onclick="confirmEdit(${user.id})"
+    class="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 mr-2">
+    Edit
+</button>
+
+        
+        <button 
+    onclick="confirmDelete(${user.id})"
+    class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">
+    Delete
+</button>
+
+    </td>
+</tr>
+
+                    `;
+          });
+        });
+
+      //confirm  to edit alert js function
+      function confirmEdit(id) {
+        if (confirm("Do you want to edit this person's details?")) {
+          window.location.href = `/person/edit/${id}`;
+        }
+      }
+
+      //confirm  to delete alert js function
+      function confirmDelete(id) {
+        if (confirm("Are you sure you want to delete this person?")) {
+          window.location.href = `/person/delete/${id}`;
+        }
+      }
+    </script>
+  </body>
+</html>

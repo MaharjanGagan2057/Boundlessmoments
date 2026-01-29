@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-100">
+    <!-- Sidebar -->
+    <aside class="fixed top-0 left-0 h-screen w-40 bg-blue-100 p-5">
+      <p class="underline text-center font-bold">Admin Panel</p>
+      <ul class="mt-5 space-y-2">
+        <li>
+          <a href="/admin" class="text-blue-600 hover:underline">Dashboard</a>
+        </li>
+        <li>
+          <a href="/users" class="text-blue-600 hover:underline">Users</a>
+        </li>
+        <li>
+          <a href="/employees" class="text-blue-600 hover:underline"
+            >Employees</a
+          >
+        </li>
+        <li>
+          <a href="/addportfolio" class="text-blue-600 hover:underline"
+            >Portfolio</a
+          >
+        </li>
+        <li>
+          <a href="/admin/addgallery" class="text-blue-600 hover:underline"
+            >Gallery</a
+          >
+        </li>
+        <li>
+          <a href="/adminblogs" class="text-blue-600 hover:underline">Blogs</a>
+        </li>
+        <li>
+          <a href="/messages" class="text-blue-600 hover:underline">Messages</a>
+        </li>
+      </ul>
+      <button
+        onclick="window.location.href = '/logout'"
+        class="mt-5 w-full text-white bg-red-500 rounded p-2 hover:bg-red-600"
+      >
+        Logout
+      </button>
+    </aside>
+
+    <!-- Main -->
+    <main class="ml-44 pt-10 px-5">
+      <h1 class="text-3xl font-bold mb-8 text-center">
+        Welcome to Admin Dashboard
+      </h1>
+
+      <!-- Dashboard Cards -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+        <!-- Users -->
+        <div
+          class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center"
+        >
+          <h2 class="text-xl font-semibold mb-2">Total Users</h2>
+          <p id="total-users" class="text-3xl font-bold text-blue-600">0</p>
+          <button
+            onclick="window.location.href = '/users'"
+            class="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Manage Users
+          </button>
+        </div>
+
+        <!-- Messages -->
+        <div
+          class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center"
+        >
+          <h2 class="text-xl font-semibold mb-2">Messages</h2>
+          <p id="total-messages" class="text-3xl font-bold text-green-600">0</p>
+          <button
+            onclick="window.location.href = '/admin/messages'"
+            class="mt-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+          >
+            View Messages
+          </button>
+        </div>
+
+        <!-- Portfolio -->
+        <div
+          class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center"
+        >
+          <h2 class="text-xl font-semibold mb-2">Portfolio Items</h2>
+          <p id="total-portfolio" class="text-3xl font-bold text-purple-600">
+            0
+          </p>
+          <button
+            onclick="window.location.href = '/admin/portfolio'"
+            class="mt-4 px-4 py-2 bg-purple-500 text-white rounded hover:bg-purple-600"
+          >
+            Manage Portfolio
+          </button>
+        </div>
+
+        <!-- Gallery -->
+        <div
+          class="bg-white shadow-lg rounded-lg p-6 flex flex-col items-center"
+        >
+          <h2 class="text-xl font-semibold mb-2">Gallery</h2>
+          <p id="total-gallery" class="text-3xl font-bold text-yellow-500">0</p>
+          <button
+            onclick="window.location.href = '/gallery'"
+            class="mt-4 px-4 py-2 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+          >
+            Manage Gallery
+          </button>
+        </div>
+      </div>
+
+      <!-- Latest Messages Preview -->
+      <div>
+        <h2 class="text-2xl font-bold mb-4">Latest Messages</h2>
+        <div id="latest-messages" class="space-y-4"></div>
+      </div>
+    </main>
+
+    <script>
+      // Fetch admin data
+      async function loadDashboard() {
+        try {
+          // Total users
+          const usersRes = await fetch("/admin/users/count");
+          const usersData = await usersRes.json();
+          document.getElementById("total-users").innerText = usersData.count;
+
+          // Total messages
+          const messagesRes = await fetch("/admin/messages/data");
+          const messagesData = await messagesRes.json();
+          document.getElementById("total-messages").innerText =
+            messagesData.length;
+
+          // Show latest 3 messages
+          const latestDiv = document.getElementById("latest-messages");
+          latestDiv.innerHTML = "";
+          messagesData.slice(0, 3).forEach((m) => {
+            const date = new Date(m.created_at);
+            const formattedDate = !isNaN(date)
+              ? date.toLocaleString()
+              : m.created_at;
+            latestDiv.innerHTML += `
+              <div class="p-4 bg-white rounded shadow">
+                <p><strong>${m.name}</strong> (${m.email})</p>
+                <p class="text-gray-600 text-sm">${m.message}</p>
+                <p class="text-gray-400 text-xs">${formattedDate}</p>
+              </div>
+            `;
+          });
+
+          // Portfolio count
+          const portfolioRes = await fetch("/admin/portfolio/count");
+          const portfolioData = await portfolioRes.json();
+          document.getElementById("total-portfolio").innerText =
+            portfolioData.count;
+
+          // Gallery count
+          const galleryRes = await fetch("/admin/gallery/count");
+          const galleryData = await galleryRes.json();
+          document.getElementById("total-gallery").innerText =
+            galleryData.count;
+        } catch (err) {
+          console.error("Error loading dashboard:", err);
+        }
+      }
+
+      loadDashboard();
+    </script>
+  </body>
+</html>

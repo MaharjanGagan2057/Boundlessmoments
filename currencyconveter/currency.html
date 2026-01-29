@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Currency Converter</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="bg-pink-200 h-screen flex justify-center items-center">
+      <!-- Currency Converter Form -->
+      <div
+        class="text-center mt-20 bg-blue-400 h-150 w-96 rounded-lg justify-center items-center p-5"
+      >
+        <h1 class="text-3xl mb-5">Currency Converter</h1>
+        <!-- <form action="/convert" method="post"> -->
+        <label for="amount">Amount:</label>
+        <input
+          type="number"
+          id="amount"
+          name="amount"
+          step="0.01"
+          class="rounded-lg"
+          required
+        />
+        <br /><br />
+        <label for="from_currency">From:</label>
+        <select
+          id="from_currency"
+          name="from_currency"
+          class="rounded-lg"
+          required
+        ></select>
+
+        <label for="to_currency">To:</label>
+        <select
+          id="to_currency"
+          name="to_currency"
+          class="rounded-lg"
+          required
+        ></select>
+        <br /><br />
+        <button onclick="convert()" class="bg-green-400 rounded-lg">
+          Convert
+        </button>
+        <div class="result">Result</div>
+        <br />
+        <p>developed Riya Rajbhandari</p>
+        <br />
+      </div>
+    </div>
+    <script src="currency.js"></script>
+  </body>
+</html>

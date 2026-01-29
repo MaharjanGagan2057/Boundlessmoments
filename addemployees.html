@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Employee</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body>
+    <!-- Sidebar -->
+    <aside class="fixed top-0 left-0 h-screen w-40 bg-blue-100 p-5">
+      <p class="underline text-center font-bold">Admin Panel</p>
+      <ul class="mt-5 space-y-2">
+        <li>
+          <a href="/admin" class="text-blue-600 hover:underline">Dashboard</a>
+        </li>
+        <li>
+          <a href="/users" class="text-blue-600 hover:underline">Users</a>
+        </li>
+        <li>
+          <a href="/employees" class="text-blue-600 hover:underline"
+            >Employees</a
+          >
+        </li>
+        <li>
+          <a href="/portfolio" class="text-blue-600 hover:underline"
+            >Portfolio</a
+          >
+        </li>
+        <li>
+          <a href="/gallery" class="text-blue-600 hover:underline">Gallery</a>
+        </li>
+        <li>
+          <a href="/blogs" class="text-blue-600 hover:underline">Blogs</a>
+        </li>
+        <li>
+          <a href="/messages" class="text-blue-600 hover:underline">Messages</a>
+        </li>
+      </ul>
+      <button
+        onclick="window.location.href = '/logout'"
+        class="mt-5 w-full text-white bg-red-500 rounded p-2 hover:bg-red-600"
+      >
+        Logout
+      </button>
+    </aside>
+
+    <div class="bg-gray-100 h-screen flex justify-center items-center pl-20">
+      <div class="bg-white shadow-lg rounded-lg p-8 w-96">
+        <h2 class="text-2xl font-bold text-center mb-4">Add Employee</h2>
+
+        <!-- add employee Form from ui to database -->
+        <form action="/employees/add" method="POST" class="space-y-4">
+          <div>
+            <label class="block font-medium" for="name">Name:</label>
+            <input
+              type="text"
+              name="name"
+              id="name"
+              required(min="7"
+              )
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium" for="department"
+              >Department:</label
+            >
+            <select
+              name="department"
+              id="department"
+              class="w-full border rounded px-3 py-2"
+            >
+              <option value="HR">HR</option>
+              <option value="Admin">Admin</option>
+              <option value="Sales">Sales</option>
+              <option value="Marketing">Marketing</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block font-medium" for="position">Position:</label>
+            <input
+              type="text"
+              name="position"
+              id="position"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+
+          <div>
+            <label class="block font-medium" for="salary">Salary:</label>
+            <input
+              type="number"
+              name="salary"
+              id="salary"
+              required
+              class="w-full border rounded px-3 py-2"
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700"
+          >
+            Add Employee
+          </button>
+        </form>
+        <button o></button>
+      </div>
+    </div>
+  </body>
+</html>
